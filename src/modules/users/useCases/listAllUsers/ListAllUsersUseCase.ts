@@ -9,13 +9,13 @@ interface IRequest {
 class ListAllUsersUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
-  execute({ user_id }: IRequest): User[] | null {
+  execute({ user_id }: IRequest): User[] {
     const user = this.usersRepository.findById(user_id);
     if (user.admin) {
       const users = this.usersRepository.list();
       return users;
     }
-    return null;
+    throw new Error("User not authorized");
   }
 }
 
