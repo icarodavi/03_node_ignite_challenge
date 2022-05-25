@@ -1,0 +1,213 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Users repository",
+        "description": "this is an user's repository api",
+        "version": "1.0.0",
+        "contact": {
+            "email": "icarodavi@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create an user",
+                "description": "Create a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "John Doe",
+                                    "email": "johndoe@email.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created an user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User already exists",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "User already exists"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get a list of all users",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "description": "Get a list of users",
+                "responses": {
+                    "200": {
+                        "description": "Receive a list of all user if user is an admin",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "summary": "Show information of an user",
+                "tags": [
+                    "Users"
+                ],
+                "description": "Show information of an user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "params",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "summary": "Change admin status to true",
+                "description": "Change admin status to true",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "params",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123123-45sads6-da4sd564"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John doe"
+                },
+                "admin": {
+                    "type": "boolean",
+                    "example": "false"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@email.com"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2020-05-16 00:00:00"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2020-05-16 00:00:00"
+                }
+            }
+        }
+    }
+}
